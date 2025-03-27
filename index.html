@@ -213,7 +213,7 @@
         const scorer = row.children[1].querySelector('input').value;
         const assist = row.children[2].querySelector('input').value;
         const nominationChecked = row.children[3].querySelector('input').checked;
-        const nominationText = nominationChecked ? "Ja" : "Nej";
+        const nominationText = nominationChecked ? "true" : "false";
   
         const resultRow = document.createElement('tr');
         resultRow.innerHTML = `
