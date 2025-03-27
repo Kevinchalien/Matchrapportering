@@ -172,11 +172,12 @@
       match.goals.forEach(player => {
         const row = document.createElement('tr');
   
-        // Målskytt (låst)
+        // Mål (låst)
         const goalCell = document.createElement('td');
         goalCell.textContent = player;
         row.appendChild(goalCell);
 
+        // Målskytt (textruta)
         const scorerCell = document.createElement('td');
         const scorerInput = document.createElement('input');
         scorerInput.type = 'text';
