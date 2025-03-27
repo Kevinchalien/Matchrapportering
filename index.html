@@ -176,21 +176,28 @@
         const goalCell = document.createElement('td');
         goalCell.textContent = player;
         row.appendChild(goalCell);
-  
-        // Assist
+
+        const scorerCell = document.createElement('td');
+        const scorerInput = document.createElement('input');
+        scorerInput.type = 'text';
+        scorerCell.appendChild(scorerInput);
+        row.appendChild(scorerCell);
+
+        // Assist (textruta)
         const assistCell = document.createElement('td');
         const assistInput = document.createElement('input');
         assistInput.type = 'text';
         assistCell.appendChild(assistInput);
         row.appendChild(assistCell);
-  
-        // Nominering
+
+        // Nominering (kryssruta)
         const nominationCell = document.createElement('td');
         const nominationInput = document.createElement('input');
         nominationInput.type = 'checkbox';
         nominationCell.appendChild(nominationInput);
         row.appendChild(nominationCell);
-  
+
+
         goalTableBody.appendChild(row);
       });
     }
@@ -201,16 +208,19 @@
   
       const rows = goalTableBody.querySelectorAll('tr');
       rows.forEach(row => {
-        const goalScorer = row.children[0].textContent;
-        const assist = row.children[1].querySelector('input').value;
-        const nomination = row.children[2].querySelector('input').value;
+        const goalText = row.children[0].textContent;
+        const scorer = row.children[1].querySelector('input').value;
+        const assist = row.children[2].querySelector('input').value;
+        const nominationChecked = row.children[3].querySelector('input').checked;
+        const nominationText = nominationChecked ? "Ja" : "Nej";
   
         const resultRow = document.createElement('tr');
         resultRow.innerHTML = `
           <td>${selectedMatchText}</td>
-          <td>${goalScorer}</td>
+          <td>${goalText}</td>
+          <td>${scorer}</td>
           <td>${assist}</td>
-          <td>${nomination}</td>
+          <td>${nominationText}</td>
         `;
         resultTable.appendChild(resultRow);
       });
