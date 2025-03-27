@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <title>Matchrapportering</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f8f9fa;
+      color: #333;
+      padding: 20px;
+    }
+
+    h1, h2 {
+      color: #2c3e50;
+    }
+
+    label, select, input {
+      font-size: 16px;
+    }
+
+    select, input[type="text"] {
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      background-color: #fff;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 30px;
+      background-color: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #3498db;
+      color: #fff;
+      font-weight: 600;
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    button {
+      background-color: #3498db;
+      color: #fff;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+
+    .section {
+      margin-bottom: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Matchrapportering</h1>
+
+  <div class="section">
+    <label for="match">Välj match:</label>
+    <select id="match">
+        <!-- Finns på script "const matchData" -->
+    </select>
+  </div>
+
+  <div class="section">
+    <h2>Mål</h2>
+    <table id="goalTable">
+      <thead>
+        <tr>
+          <th>Mål</th>
+          <th>Målskytt (låst)</th>
+          <th>Assist</th>
+          <th>Nominerad</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Dynamiska rader -->
+      </tbody>
+    </table>
+  </div>
+
+  <button onclick="spara()">Spara</button>
+
+  <div class="section">
+    <h2>Rapporterad Data</h2>
+    <table id="resultTable">
+      <thead>
+        <tr>
+          <th>Match</th>
+          <th>Mål</th>
+          <th>Målskytt</th>
+          <th>Assist</th>
+          <th>Nominerad</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Resultat sparas här -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    const matchData = [
+      { id: 'match1', name: 'Mölndals IBF P10 Vit - Ale IBF P09 Vit', goals: ["1-0", "2-0", "3-0"] },
+      { id: 'match2', name: 'FBC Lerum Utveckling P11 - Mölndals IBF P10 röd', goals: ["1-0", "2-0", "3-0", "4-0", "5-0", "6-0", "7-0", "8-0", "9-0", "10-0", "11-0"] },
+      { id: 'match3', name: 'Pixbo IBF P10/11 Vit - Mölndals IBF P10 Vit', goals: ["1-0", "2-0", "3-0", "4-0", "5-2", "6-5"] },
+      { id: 'match4', name: 'Mölndals IBF P10 röd - Lindås IBK P10/11 Vita', goals: ["1-0", "2-0", "3-0", "4-0", "5-1", "6-1"] },
+      { id: 'match5', name: 'Mölndals IBF P10 Vit - Surte IS IBK P10/11', goals: ["1-0", "2-0", "3-0", "4-0", "5-0", "6-0", "7-1"] },
+      { id: 'match6', name: 'Mölndals IBF P10 röd - Ale IBF P10', goals: ["1-1", "2-2", "3-2", "4-2"] },
+      { id: 'match7', name: 'Lindome IBK U15 Grön - Mölndals IBF P10 Vit', goals: [] },
+      { id: 'match8', name: 'IBK Elfhög - Mölndals IBF P10 röd', goals: ["1-0", "2-0", "3-0", "4-0", "5-0"] },
+      { id: 'match9', name: 'Mölndals IBF P10 Vit - FBC Lerum Utveckling P09 Röd', goals: [] },
+      { id: 'match10', name: 'Floda IBK P10/11 Vit - Mölndals IBF P10 röd', goals: ["1-1", "5-2"] },
+      { id: 'match11', name: 'Mölndals IBF P10 röd - IBK Kungälv P10 Vit', goals: ["1-1", "2-2", "3-2", "4-3", "5-3"] },
+      { id: 'match12', name: 'Kärra IBK P10 Svart - Mölndals IBF P10 röd', goals: ["1-0", "2-0", "3-0", "4-0", "5-1", "6-1", "7-1"] },
+      { id: 'match13', name: 'Mölndals IBF P10 Vit - Landvetter IBK P10 Svart', goals: ["1-0", "2-2", "3-2"] },
+      { id: 'match14', name: 'Mölndals IBF P10 Röd - Landvetter IBK P11 (P11/12 vit)', goals: ["1-0", "2-1", "3-1", "4-1", "5-2", "6-2", "7-3"] },
+      { id: 'match15', name: 'Överby IBK P09/11 - Mölndals IBF P10 Vit (P10)', goals: ["1-0", "4-2", "4-3", "4-4"] },
+      { id: 'match16', name: 'Mölndals IBF P10 Vit - IK Zenith P-10 Vit', goals: ["1-0", "2-2", "3-2", "4-2", "5-2", "6-3", "7-3", "8-3", "9-3", "10-3", "11-3", "12-3"] },
+      { id: 'match17', name: 'Stenungsunds IBK P10/11 - Mölndals IBF P10 Röd', goals: ["2-1"] }
+    ];
+  
+    const matchSelect = document.getElementById('match');
+    const goalTableBody = document.getElementById('goalTable').querySelector('tbody');
+  
+    // Fyll dropdown med matcher
+    matchData.forEach(match => {
+      const option = document.createElement('option');
+      option.value = match.id;
+      option.textContent = match.name;
+      matchSelect.appendChild(option);
+    });
+  
+    matchSelect.addEventListener('change', renderGoals);
+  
+    function renderGoals() {
+      const selectedMatch = matchSelect.value;
+      const match = matchData.find(m => m.id === selectedMatch);
+  
+      if (!match) return;
+  
+      goalTableBody.innerHTML = ''; // Töm tidigare mål
+  
+      match.goals.forEach(player => {
+        const row = document.createElement('tr');
+  
+        // Målskytt (låst)
+        const goalCell = document.createElement('td');
+        goalCell.textContent = player;
+        row.appendChild(goalCell);
+  
+        // Assist
+        const assistCell = document.createElement('td');
+        const assistInput = document.createElement('input');
+        assistInput.type = 'text';
+        assistCell.appendChild(assistInput);
+        row.appendChild(assistCell);
+  
+        // Nominering
+        const nominationCell = document.createElement('td');
+        const nominationInput = document.createElement('input');
+        nominationInput.type = 'checkbox';
+        nominationCell.appendChild(nominationInput);
+        row.appendChild(nominationCell);
+  
+        goalTableBody.appendChild(row);
+      });
+    }
+  
+    function spara() {
+      const selectedMatchText = matchSelect.options[matchSelect.selectedIndex].text;
+      const resultTable = document.getElementById('resultTable').querySelector('tbody');
+  
+      const rows = goalTableBody.querySelectorAll('tr');
+      rows.forEach(row => {
+        const goalScorer = row.children[0].textContent;
+        const assist = row.children[1].querySelector('input').value;
+        const nomination = row.children[2].querySelector('input').value;
+  
+        const resultRow = document.createElement('tr');
+        resultRow.innerHTML = `
+          <td>${selectedMatchText}</td>
+          <td>${goalScorer}</td>
+          <td>${assist}</td>
+          <td>${nomination}</td>
+        `;
+        resultTable.appendChild(resultRow);
+      });
+  
+      goalTableBody.innerHTML = '';
+    }
+  
+    // Startar med första matchen
+    renderGoals();
+  </script>
+  
+  
+</body>
+</html>
